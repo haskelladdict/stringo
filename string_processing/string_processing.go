@@ -169,28 +169,45 @@ func Binary_search(items []string, word string) int {
 
 
 
+// is_prefix checks if word is a prefix of target
+func is_prefix(word, target string) bool {
+
+  if len(target) < len(word) {
+    return false
+  }
+
+  item := target[:len(word)]
+  if word == item {
+    return true
+  } else {
+    return false
+  }
+}
+
+
+
 // Scan_array scans a sorted array of strings for occurences
 // of word as prefix before and after the index loc. 
 // The string at loc is assumed to contain word as prefix.
 func Scan_array(items []string, word string, loc int) []string {
 
   matches := make([]string, 0)
-  word_match := word
+
+  // scan backward
   for i := loc; i > 0; i-- {
-    item := items[i][:len(word_match)]
-    if word_match == item {
+    if is_prefix(word, items[i]) {
       matches = append(matches, items[i])
     } else {
-      continue
+      break
     }
   }
 
+  // scan forward
   for i := loc+1; i < len(items); i++ {
-    item := items[i][:len(word_match)]
-    if word_match == item {
+    if is_prefix(word, items[i]) {
       matches = append(matches, items[i])
     } else {
-      continue
+      break
     }
   }
 
